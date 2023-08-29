@@ -1,0 +1,379 @@
+#root {
+  font-family: "Raleway", sans-serif;
+  flex: 1;
+  height: 100%;
+}
+
+.container-main-signup {
+  --padding: 4rem;
+  display: inline-flex;
+  margin: 0 auto;
+  padding: var(--padding);
+  text-align: center;
+  background-color: rgb(57, 131, 136);
+  width: calc(100% - 2 * var(--padding));
+  height: calc(100% - 2 * var(--padding));
+  color: antiquewhite;
+}
+
+.container-1-div {
+  padding-right: 5rem;
+  font-size: xx-large;
+  align-self: center;
+  margin-block-end: 1rem;
+  font-weight: 800;
+}
+
+.are-you-ready .big {
+  font-size: 2.5rem;
+}
+
+.signup {
+  display: inline-block;
+  margin-inline-end: auto;
+}
+
+.signup-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: rgb(73, 162, 202);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+#form-signup,
+#form-login,
+#form-forgot {
+  border: 3px solid white;
+  padding: 10px;
+}
+
+.signup-label {
+  font-size: 1.8rem;
+}
+
+.already-div {
+  /* already have an account */
+  display: inline-block;
+  font-size: 1rem;
+  border-bottom: 3px solid white;
+  margin-bottom: 5px;
+}
+
+.container-signup,
+.container-login,
+.container-forgot {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 15px;
+  font-size: 1.5rem;
+}
+
+input {
+  width: 300px;
+  height: 40px;
+}
+
+#grid-item {
+  padding: 10px;
+}
+
+.main-title-div {
+  font-size: 2.8rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sub-title-div {
+  font-size: 1.7rem;
+  color: rgb(230, 230, 150);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.want-to-log-in {
+  text-decoration-line: underline;
+}
+
+.login,
+.forgot-password,
+.reset-password {
+  display: flex;
+  flex-direction: column;
+  --padding: 15rem;
+  margin: 0 auto;
+  padding: var(--padding);
+  text-align: center;
+  background-color: rgb(57, 131, 136);
+
+  width: calc(100% - 2 * var(--padding));
+  height: calc(100% - 2 * var(--padding));
+  color: antiquewhite;
+}
+
+.login-title-div {
+  padding: 1rem;
+}
+
+#login-title {
+  font-size: 2.2rem;
+}
+
+.login-ending-div {
+  display: flex;
+  flex-direction: column;
+}
+.login-button,
+.reset-button,
+.forgot-button {
+  margin-left: 15rem;
+  margin-right: 15rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: rgb(73, 162, 202);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+#forgot-password-link-from-login,
+#reset-password-link-from-login {
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
+#forgot-password-text,
+#reset-password-text {
+  font-size: medium;
+  padding-left: 160px;
+}
+
+.forgot-title-div,
+.reset-title-div {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.6rem;
+  margin: 12px;
+}
+
+.container-forgot {
+  margin-bottom: 1rem;
+}
+
+.main-title-start-div {
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+  background-color: rgb(0, 183, 255);
+  text-align: center;
+  color: white;
+  font-size: 35px;
+  padding: 40px;
+}
+
+/* Site.csss */
+.start-title-div {
+  text-align: center;
+  color: rgb(73, 162, 202);
+  font-size: 2.5rem;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+.start-container-div {
+  display: flex;
+  background-color: rgb(255, 255, 255);
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  border-bottom: 5px solid #000000;
+}
+/* Search bar */
+.search-box {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+.input-search {
+  height: 50px;
+  width: 15xrem;
+  border-style: none;
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  outline: none;
+  border-radius: 25px;
+  transition: all 0.5s ease-in-out;
+  background-color: rgb(108, 208, 255);
+  padding-right: 40px;
+  color: black;
+}
+.input-search::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 100;
+}
+.btn-search {
+  width: 15%;
+  height: 100%;
+  border-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  color: #000000;
+  background-color: transparent;
+  pointer-events: painted;
+}
+
+.btn-search:focus ~ .input-search {
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+.input-search:focus {
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+.signup-button-main-div {
+  display: flex;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+#signup-link {
+  margin-right: 1rem;
+}
+.shopping-bag-icon {
+  font-size: 1.5rem;
+  color: rgb(73, 162, 202);
+}
+.front-image-div {
+  margin-top: 0px;
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+}
+.front-image-div img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.image-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 3rem;
+  text-align: center;
+}
+.section-one-new-releases,
+.section-two-most-popular,
+.section-three-discounts {
+  background-color: rgb(208, 208, 208);
+  padding-bottom: 10rem;
+  margin: 1rem;
+}
+.section-one-title,
+.section-two-title,
+.section-three-title {
+  color: rgb(0, 0, 0);
+  font-size: 2.5rem;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  font-weight: 500;
+}
+.section-one-subtitle,
+.section-two-subtitle,
+.section-three-subtitle {
+  color: rgb(73, 162, 202);
+  font-size: 1rem;
+  margin-left: 2rem;
+  font-weight: 500;
+}
+.image-text-cart {
+  position: absolute;
+  top: 50%;
+  left: 24%;
+  transform: translate(-50%, -50%);
+  color: rgba(202, 73, 97, 0.78);
+  font-size: 2.7rem;
+  font-weight: 500;
+}
+
+.add-book-container {
+  display: grid;
+  gap: 10px;
+}
+.add-book-container div {
+  margin-left: 2rem;
+  padding-top: 0.5rem;
+}
+.book-image-div {
+  text-align: center;
+}
+.book-image-div img {
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+}
+#book-grid-div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  text-align: left;
+}
+.bookname-display {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-top: 1rem;
+  margin-bottom: 0.2rem;
+}
+.authorname-display {
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  margin-bottom: 1rem;
+}
+.discription-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.shopping-bag-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+.shopping-bag-icon-2 {
+  font-size: 1.5rem;
+  color: rgb(255, 255, 255);
+  margin-right: 5px;
+}
+#add-to-cart-button {
+  background-color: rgb(78, 159, 143);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  font-size: 1.4rem;
+  color: rgb(255, 255, 255);
+}
+
+#add-to-cart-button:hover {
+  background-color: rgba(78, 159, 143, 0.8);
+}
