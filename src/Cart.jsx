@@ -1,5 +1,37 @@
 import { Link } from "react-router-dom";
 import "./User.css";
+import { postData } from "./utils";
+import React, { useEffect, useState } from "react";
+
+function Loading() {
+  return <h2>🌀 Loading...</h2>;
+}
+
+function ErrorMessage({ message }) {
+  return <h2>Error: {message}</h2>;
+}
+
+function Book({ book }) {
+  return (
+    <div className="image-div">
+      <div id="book-grid-div">
+        {/* grid div 1 */}
+        <div className="book-image-div">
+          <img src="./images/Miss_Americana.jpg" alt="Book Cover" />
+        </div>
+        {/* grid div 2 */}
+        <div className="book-info-div">
+          <div className="bookname-display">
+            <span id="bookTitle">{book.bookName}</span>
+          </div>
+          <div className="authorname-display">
+            <label id="authorName">{book.bookAuthor}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Cart() {
   return (
@@ -23,13 +55,16 @@ function Cart() {
             <Link to="/signup">Signup</Link>
           </div>
           <div>
-            <i class="fas fa-shopping-bag shopping-bag-icon"></i>
+            <i className="fas fa-shopping-cart shopping-bag-icon"></i>
           </div>
         </div>
       </div>
       <div className="front-image-div">
         <img src="./images/Cart-image.jpeg" alt="" />
         <div className="image-text-cart">Your Cart</div>
+      </div>
+      <div className="cart-items">
+        <AddToCartComponent />
       </div>
     </div>
   );

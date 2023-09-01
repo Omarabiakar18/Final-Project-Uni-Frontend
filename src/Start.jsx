@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./User.css";
 import { getData } from "./utils";
 import { useEffect, useState } from "react";
+
 function Loading() {
   return <h2>🌀 Loading...</h2>;
 }
@@ -12,7 +13,17 @@ function ErrorMessage({ message }) {
 }
 
 function Book({ book }) {
-  return <h1>{book.bookName}</h1>;
+  return (
+    <div className="grid-div-start">
+      <div
+        className="bookName-start"
+        onClick={() => (location.href = `/displaybook?bookID=${book.bookID}`)}
+      >
+        {book.bookName}
+      </div>
+      <div className="bookAuthor-start">{book.bookAuthor}</div>
+    </div>
+  );
 }
 
 function BookList({ endPoint }) {
@@ -49,7 +60,18 @@ function BookList({ endPoint }) {
 }
 
 function Start() {
-  const fullName = () => localStorage.getItem("fullName");
+  useEffect(
+    () => async () => {
+      const [genres, error] = await getData("/bookGenres");
+      if (error) {
+        alert("Genres didn't load");
+      } else {
+        localStorage.setItem("bookGenre", JSON.stringify(genres));
+      }
+    },
+    []
+  );
+
   return (
     <div className="contain">
       <div className="start-container-div">
@@ -72,7 +94,7 @@ function Start() {
           </div>
           <div>
             <Link to="/cart">
-              <i className="fas fa-shopping-bag shopping-bag-icon"></i>
+              <i className="fas fa-shopping-cart shopping-bag-icon"></i>
             </Link>
           </div>
         </div>

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 import "./User.css";
 import { useRef } from "react";
 
@@ -8,7 +7,7 @@ import { postData } from "./utils";
 const SERVER = import.meta.env.VITE_BACKEND;
 
 function LogIn() {
-  const url = `${SERVER}/api/auth/login`;
+  const url = `/api/auth/login`;
   const formData = useRef({});
 
   async function handleSubmit(event) {
@@ -17,14 +16,14 @@ function LogIn() {
     for (let key in formData.current) {
       sendData[key] = formData.current[key]();
     }
-    const response = await postData(url, sendData);
-    const json = await response.json();
-    if (response.status >= 400) {
-      alert(`Error Occured: ${json.message}`);
+    const [data, error] = await postData(url, sendData);
+    console.log(data);
+    if (error) {
+      alert(`Error Occured: ${error}`);
       localStorage.clear();
     } else {
-      localStorage.setItem("token", json.token);
-      localStorage.setItem("fullName", json.data.user.fullName);
+      localStorage.setItem("fullName", data.data.user.fullName);
+      localStorage.setItem("email", data.data.user.email);
       location.href = "/start";
     }
   }

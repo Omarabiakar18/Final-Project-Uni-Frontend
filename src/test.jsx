@@ -12,69 +12,39 @@ function ErrorMessage({ message }) {
 }
 
 function Book({ book }) {
-  const bookQuantity = useRef(null);
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const bookID = new URL(location.href).searchParams.get("bookID");
-    const url = `/api/users/addToCart/${bookID}`;
-
-    const email = localStorage.getItem("email");
-    if (email === null) {
-      console.error("Error: Email not found in localStorage.");
-      alert("You need to sign up or login to continue");
-    }
-
-    const sendData = {
-      email,
-      bookID,
-      bookQuantity: bookQuantity.current.value,
-    };
-    console.log(sendData);
-
-    const [data, error] = await postData(url, sendData);
-    console.log(data);
-
-    if (error) {
-      alert(`Error Occured: ${error}`);
-    } else {
-      alert("Book added to cart!!");
-    }
-  }
-
+  const formData = useRef({});
   return (
-    <div id="book-grid-div">
-      <div className="book-image-div">
-        <img src={book.bookCover} alt="Book Cover" />
+    <div className="grid-div-start">
+      <div className="bookname-display">
+        <span id="bookTitle">{book.bookName}</span>
       </div>
-      <div className="book-info-div">
-        <div className="grid-div-start">
-          <form onSubmit={handleSubmit}>
-            <div className="bookname-display">
-              <span id="bookTitle">{book.bookName}</span>
-            </div>
-            <div className="authorname-display">
-              <label id="authorName">{book.bookAuthor}</label>
-            </div>
-            <div className="quantity-display">
-              <span id="quantity-title-display">Quantity:</span>
-              <input type="number" ref={bookQuantity} />
-            </div>
-            <div id="buttons-display">
-              <button id="add-to-cart-button">
-                <i className="fas fa-shopping-cart shopping-bag-icon-2"></i>
-                Add to Cart
-              </button>
-            </div>
-            <div className="description-display">
-              <div className="discription-title">
-                <label id="description">Description:</label>
-              </div>
-              <div className="discription">
-                <span>{book.bookDescription}</span>
-              </div>
-            </div>
-          </form>
+      <div className="authorname-display">
+        <label id="authorName">{book.bookAuthor}</label>
+      </div>
+      <div className="quantity-display">
+        <span id="quantity-title-display">Quantity:</span>
+        <input
+          type="number"
+          ref={(elt) =>
+            (formData.current = {
+              email: () => elt.value,
+              ...formData.current,
+            })
+          }
+        />
+      </div>
+      <div id="buttons-display">
+        <button id="add-to-cart-button" onClick={AddToCartComponent}>
+          <i className="fas fa-shopping-cart shopping-bag-icon-2"></i>
+          Add to Cart
+        </button>
+      </div>
+      <div className="description-display">
+        <div className="discription-title">
+          <label id="description">Description:</label>
+        </div>
+        <div className="discription">
+          <span>{book.bookDescription}</span>
         </div>
       </div>
     </div>
@@ -112,7 +82,35 @@ function BookDisplayComponent() {
 
   return <Book book={bookDisplay} />;
 }
+function AddToCartComponent() {
+  try {
+    const formData = useRef();
+    async function handleSubmit(event) {
+      const bookID = new URL(location.href).searchParams.get("bookID");
+      const url = `/api/users/addToCart/${bookID}`;
 
+      const email = localStorage.getItem("email");
+      if (email === null) {
+        console.error("Error: Data not found in localStorage.");
+        alert("You need to sign up or login to continue");
+        location.href = "/login";
+      }
+      const sendData = { email, sendInputs };
+      for (let key in formData.current) {
+        sendInputs[key] = formData.current[key]();
+      }
+      const [data, error] = await postData(url, sendData);
+      console.log(data);
+
+      if (error) {
+        alert(`Error Occured: ${error}`);
+        localStorage.clear();
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 function DisplayBook() {
   useEffect(() => {
     const bookIDParam = new URL(location.href).searchParams.get("bookID");
@@ -130,6 +128,7 @@ function DisplayBook() {
 
   return (
     <div className="container">
+      <form action=""></form>
       <div className="start-container-div">
         <div className="start-title-div">
           <label className="main-title-logo">BookShelf Depot</label>
@@ -156,7 +155,14 @@ function DisplayBook() {
         </div>
       </div>
       <div className="display-book-div">
-        <BookDisplayComponent />
+        <div id="book-grid-div">
+          <div className="book-image-div">
+            <img src="./images/Miss_Americana.jpg" alt="Book Cover" />
+          </div>
+          <div className="book-info-div">
+            <BookDisplayComponent />
+          </div>
+        </div>
       </div>
     </div>
   );
