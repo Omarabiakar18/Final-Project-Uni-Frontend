@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+.link-display {
+  text-decoration: none;
+}
+
 .container-main-signup {
   --padding: 4rem;
   display: inline-flex;
@@ -19,6 +23,7 @@
 .container-1-div {
   padding-right: 5rem;
   font-size: xx-large;
+
   align-self: center;
   margin-block-end: 1rem;
   font-weight: 800;
@@ -184,6 +189,12 @@ input {
   margin-bottom: 2rem;
   font-weight: 500;
 }
+
+.start-title-div i {
+  font-size: 2rem;
+  margin-left: 0.7rem;
+  text-align: start;
+}
 .start-container-div {
   display: flex;
   background-color: rgb(255, 255, 255);
@@ -192,6 +203,12 @@ input {
   align-items: center;
   border-bottom: 5px solid #000000;
 }
+
+.bookName-start {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
 /* Search bar */
 .search-box {
   width: fit-content;
@@ -200,7 +217,7 @@ input {
 }
 .input-search {
   height: 50px;
-  width: 15xrem;
+  width: 20rem;
   border-style: none;
   padding: 10px;
   font-size: 18px;
@@ -281,7 +298,6 @@ input {
 .section-two-most-popular,
 .section-three-discounts {
   background-color: rgb(208, 208, 208);
-  padding-bottom: 10rem;
   margin: 1rem;
 }
 .section-one-title,
@@ -300,6 +316,7 @@ input {
   font-size: 1rem;
   margin-left: 2rem;
   font-weight: 500;
+  margin-bottom: 1rem;
 }
 .image-text-cart {
   position: absolute;
@@ -333,9 +350,14 @@ input {
   grid-template-columns: 30% 70%;
   gap: 10px;
   text-align: left;
+  margin: 1rem;
+  padding: 0.8rem;
+  border: 2px solid rgb(73, 162, 202);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 .bookname-display {
-  font-size: 1.8rem;
+  font-size: 3rem;
   font-weight: 800;
   margin-top: 1rem;
   margin-bottom: 0.2rem;
@@ -344,6 +366,22 @@ input {
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 1rem;
+}
+.price-display {
+  font-family: "ADLaM Display", sans-serif;
+  font-size: 1.7rem;
+  background-color: rgba(192, 133, 83, 0.5); /* Set a background color */
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid rgba(192, 133, 83, 1); /* Add a border */
+  border-radius: 5px;
+  display: inline-block;
+}
+#priceBook-text {
+  font-weight: 500;
+}
+#priceBook {
+  font-weight: 600;
 }
 .quantity-display {
   margin-bottom: 1rem;
@@ -362,6 +400,28 @@ input {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+.discription-content {
+  font-size: large;
+  line-height: 1.8rem;
+}
+
+.ratings-reviews {
+  margin-top: 1.2rem;
+}
+
+.ratings-reviews-label {
+  font-size: 1.7rem;
+  color: rgb(0, 0, 0);
+  display: inline-block;
+  margin-right: 5px;
+  font-weight: 800;
+}
+.rating {
+  font-size: 1.7rem;
+  color: gold;
+  display: inline-block;
+  margin-top: 1rem;
+}
 
 .shopping-bag-icon {
   font-size: 24px;
@@ -370,7 +430,7 @@ input {
 .shopping-bag-icon-2 {
   font-size: 1.5rem;
   color: rgb(255, 255, 255);
-  margin-right: 5px;
+  margin-right: 0.4rem;
 }
 #add-to-cart-button {
   background-color: rgb(78, 159, 143);
@@ -393,5 +453,49 @@ input {
 .grid-div-start {
   display: inline-block;
   margin-left: 2rem;
-  text-align: center;
+  text-align: left;
+  cursor: pointer;
+}
+.bookCover-start img {
+  width: 8rem;
+}
+.bookCover-addbook img {
+  width: 10rem;
+}
+
+#upload-image-addbook,
+#remove-image-addbook,
+#choose-file-addbook button {
+  background-color: rgb(149, 226, 142);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+/* Style the custom file input container */
+.file-input-container {
+  position: relative;
+  display: inline-block;
+}
+
+.file-label {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }

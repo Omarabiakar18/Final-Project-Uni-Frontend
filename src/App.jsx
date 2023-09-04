@@ -7,6 +7,7 @@ import AddBook from "./AddBook";
 import DisplayBook from "./DisplayBook";
 import ForgotPass from "./ForgotPass";
 import ResetPassword from "./ResetPassword";
+import Search from "./Search";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/addbook" element={<AddBook />} />
         <Route path="/displaybook" element={<DisplayBook />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </div>
   );

@@ -1,3 +1,5 @@
+//Error when photo removed
+
 import { Link } from "react-router-dom";
 import "./User.css";
 import { getData, postData } from "./utils";
@@ -78,9 +80,11 @@ function AddBook() {
   return (
     <div className="container">
       <div className="start-container-div">
-        <div className="start-title-div">
-          <label className="main-title-logo">BookShelf Depot</label>
-        </div>
+        <Link className="link-display" to="/start">
+          <div className="start-title-div">
+            <label className="main-title-logo">BookShelf Depot</label>
+          </div>
+        </Link>
         <div className="search-box">
           <button className="btn-search">
             <i className="fas fa-search"></i>
@@ -110,21 +114,38 @@ function AddBook() {
         <div className="add-book-container">
           {imageUrl == null ? (
             <div className="book-image">
-              <input
-                type="file"
-                onChange={(event) => {
-                  setImageUpload(event.target.files[0]);
-                }}
-              />
-              <button type="button" onClick={uploadImage}>
+              <div className="file-input-container">
+                <label className="file-label">
+                  Choose File
+                  <input
+                    type="file"
+                    className="file-input"
+                    onChange={(event) => {
+                      setImageUpload(event.target.files[0]);
+                    }}
+                  />
+                </label>
+              </div>
+
+              <button
+                id="upload-image-addbook"
+                type="button"
+                onClick={uploadImage}
+              >
                 Upload Image
               </button>
             </div>
           ) : (
-            <>
+            <div className="bookCover-addbook">
               <img src={imageUrl} alt="Book Cover" />
-              <button onClick={removeImage}>Remove photo</button>
-            </>
+              <button
+                id="remove-image-addbook"
+                type="button"
+                onClick={removeImage}
+              >
+                Remove photo
+              </button>
+            </div>
           )}
           <div className="addbook-name">
             <div>Book Name:</div>

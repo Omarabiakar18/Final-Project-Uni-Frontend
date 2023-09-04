@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import "./User.css";
 import { getData, postData } from "./utils";
 import React, { useEffect, useState, useRef } from "react";
+import { Pinwheel } from "@uiball/loaders";
 
 function Loading() {
-  return <h2>🌀 Loading...</h2>;
+  return <Pinwheel size={35} lineWeight={3.5} speed={1} color="black" />;
 }
 
 function ErrorMessage({ message }) {
@@ -23,6 +24,7 @@ function Book({ book }) {
     if (email === null) {
       console.error("Error: Email not found in localStorage.");
       alert("You need to sign up or login to continue");
+      return;
     }
 
     const sendData = {
@@ -54,7 +56,11 @@ function Book({ book }) {
               <span id="bookTitle">{book.bookName}</span>
             </div>
             <div className="authorname-display">
-              <label id="authorName">{book.bookAuthor}</label>
+              <label id="authorName">by {book.bookAuthor}</label>
+            </div>
+            <div className="price-display">
+              <span id="priceBook-text">Price </span>
+              <span id="priceBook">{book.bookPrice}$</span>
             </div>
             <div className="quantity-display">
               <span id="quantity-title-display">Quantity:</span>
@@ -68,10 +74,34 @@ function Book({ book }) {
             </div>
             <div className="description-display">
               <div className="discription-title">
-                <label id="description">Description:</label>
+                <label id="description">Description</label>
               </div>
-              <div className="discription">
+              <div className="discription-content">
                 <span>{book.bookDescription}</span>
+              </div>
+            </div>
+            <div className="ratings-reviews">
+              <span className="ratings-reviews-label">Ratings and Reviews</span>
+              <br />
+              <div className="rating" data-rating="0">
+                <span className="star" data-value="1">
+                  &#9733;
+                </span>
+                <span className="star" data-value="2">
+                  &#9733;
+                </span>
+                <span className="star" data-value="3">
+                  &#9733;
+                </span>
+                <span className="star" data-value="4">
+                  &#9733;
+                </span>
+                <span className="star" data-value="5">
+                  &#9733;
+                </span>
+              </div>
+              <div className="reviews">
+                <textarea cols="40" rows="5"></textarea>
               </div>
             </div>
           </form>
@@ -131,9 +161,11 @@ function DisplayBook() {
   return (
     <div className="container">
       <div className="start-container-div">
-        <div className="start-title-div">
-          <label className="main-title-logo">BookShelf Depot</label>
-        </div>
+        <Link className="link-display" to="/start">
+          <div className="start-title-div">
+            <label className="main-title-logo">BookShelf Depot</label>
+          </div>
+        </Link>
         <div className="search-box">
           <button className="btn-search">
             <i className="fas fa-search"></i>
