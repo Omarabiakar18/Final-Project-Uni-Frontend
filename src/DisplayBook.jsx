@@ -3,6 +3,7 @@ import "./User.css";
 import { getData, postData } from "./utils";
 import React, { useEffect, useState, useRef } from "react";
 import { Pinwheel } from "@uiball/loaders";
+import Header from "./Header";
 
 function Loading() {
   return <Pinwheel size={35} lineWeight={3.5} speed={1} color="black" />;
@@ -160,33 +161,7 @@ function DisplayBook() {
 
   return (
     <div className="container">
-      <div className="start-container-div">
-        <Link className="link-display" to="/start">
-          <div className="start-title-div">
-            <label className="main-title-logo">BookShelf Depot</label>
-          </div>
-        </Link>
-        <div className="search-box">
-          <button className="btn-search">
-            <i className="fas fa-search"></i>
-          </button>
-          <input
-            type="text"
-            className="input-search"
-            placeholder="Type to Search..."
-          />
-        </div>
-        <div className="signup-button-main-div">
-          <div id="signup-link">
-            <Link to="/signup">Signup</Link>
-          </div>
-          <div>
-            <Link to="/cart">
-              <i className="fas fa-shopping-cart shopping-bag-icon"></i>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <Header />
       <div className="display-book-div">
         <BookDisplayComponent />
       </div>

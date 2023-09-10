@@ -3,6 +3,7 @@ import "./User.css";
 import { getData } from "./utils";
 import { useEffect, useRef, useState } from "react";
 import { Pinwheel } from "@uiball/loaders";
+import Header from "./Header";
 
 function Loading() {
   return <Pinwheel size={60} lineWeight={3.5} speed={1} color="black" />;
@@ -73,8 +74,6 @@ function BookList({ endPoint }) {
 }
 
 function Start() {
-  const query = useRef();
-
   useEffect(
     () => async () => {
       const [genres, error] = await getData("/bookGenres");
@@ -86,44 +85,11 @@ function Start() {
     },
     []
   );
+  const fullName = localStorage.getItem("fullName");
 
   return (
     <div className="contain">
-      <div className="start-container-div">
-        <Link className="link-display" to="/start">
-          <div className="start-title-div">
-            <label className="main-title-logo">BookShelf Depot</label>
-            <i className="fas fa-home icon-container"></i>
-          </div>
-        </Link>
-        <div className="search-box">
-          <div
-            onClick={() =>
-              (location.href = `/search?query=${query.current.value}`)
-            }
-          >
-            <button className="btn-search">
-              <i className="fas fa-search"></i>
-            </button>
-          </div>
-          <input
-            type="text"
-            className="input-search"
-            placeholder="Search by Book, Author or Filters"
-            ref={query}
-          />
-        </div>
-        <div className="signup-button-main-div">
-          <div id="signup-link">
-            <Link to="/signup">Signup</Link>
-          </div>
-          <div>
-            <Link to="/cart">
-              <i className="fas fa-shopping-cart shopping-bag-icon"></i>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <Header />
       <div className="front-image-div">
         <img src="https://ln.run/IKqlt" alt="start-image" />
         <div className="image-text">Welcome To The BookShelf Depot</div>

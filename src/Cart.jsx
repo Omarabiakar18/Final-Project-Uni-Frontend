@@ -3,6 +3,7 @@ import "./User.css";
 import { postData, getData } from "./utils";
 import React, { useEffect, useState } from "react";
 import { Pinwheel } from "@uiball/loaders";
+import Header from "./Header";
 
 function Loading() {
   return <Pinwheel size={35} lineWeight={3.5} speed={1} color="black" />;
@@ -100,6 +101,10 @@ function Book({ itemID, book, quantity, setBookList }) {
           <div className="authorname-display">
             <label id="authorName">{book.bookAuthor}</label>
           </div>
+          <div className="price-display">
+            <span id="priceBook-text">Price </span>
+            <span id="priceBook">{book.bookPrice}$</span>
+          </div>
           <div className="quantity-cart">
             <input
               type="text"
@@ -107,8 +112,12 @@ function Book({ itemID, book, quantity, setBookList }) {
               value={quantityValue}
               onChange={(ev) => validNumber(ev.target.value)}
             />
-            <button onClick={updateBook}>Update Item</button>
-            <button onClick={removeBook}>Remove Item</button>
+            <button id="update-cart-button" onClick={updateBook}>
+              Update Item
+            </button>
+            <button id="remove-cart-button" onClick={removeBook}>
+              X
+            </button>
           </div>
         </div>
       </div>
@@ -126,7 +135,6 @@ function BookDisplayComponent() {
 
   useEffect(
     () => async () => {
-      console.log(url);
       const [data, error] = await postData(url, sendData);
       if (error) {
         setError(error);
@@ -159,41 +167,24 @@ function BookDisplayComponent() {
 }
 
 function Cart() {
+  const email = localStorage.getItem("email");
+  if (email === undefined) {
+    console.error("Error: Email not found in localStorage.");
+    alert("You need to sign up or login to continue");
+    location.href = "/start";
+  }
   return (
     <div className="container">
-      <div className="start-container-div">
-        <Link className="link-display" to="/start">
-          <div className="start-title-div">
-            <label className="main-title-logo">BookShelf Depot</label>
-          </div>
-        </Link>
-        <div className="search-box">
-          <button className="btn-search">
-            <i className="fas fa-search"></i>
-          </button>
-          <input
-            type="text"
-            className="input-search"
-            placeholder="Type to Search..."
-          />
-        </div>
-        <div className="signup-button-main-div">
-          <div id="signup-link">
-            <Link to="/signup">Signup</Link>
-          </div>
-          <div>
-            <Link to="/cart">
-              <i className="fas fa-shopping-cart shopping-bag-icon"></i>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <Header />
       <div className="front-image-div">
-        <img src="https://ln.run/YM2u5" alt="" />
+        <img src="https://ln.run/YM2u5" alt="Cart Image" />
         <div className="image-text-cart">Your Cart</div>
       </div>
       <div className="cart-items">
         <BookDisplayComponent />
+      </div>
+      <div id="checkout-cart-div">
+        <button id="checkout-button-cart">Checkout</button>
       </div>
     </div>
   );

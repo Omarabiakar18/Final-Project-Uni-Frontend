@@ -1,5 +1,3 @@
-//Error when photo removed
-
 import { Link } from "react-router-dom";
 import "./User.css";
 import { getData, postData } from "./utils";
@@ -12,6 +10,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
+import Header from "./Header";
 
 function AddBook() {
   const formData = useRef({});
@@ -79,42 +78,22 @@ function AddBook() {
   const bookGenre = JSON.parse(genres);
   return (
     <div className="container">
-      <div className="start-container-div">
-        <Link className="link-display" to="/start">
-          <div className="start-title-div">
-            <label className="main-title-logo">BookShelf Depot</label>
-          </div>
-        </Link>
-        <div className="search-box">
-          <button className="btn-search">
-            <i className="fas fa-search"></i>
-          </button>
-          <input
-            type="text"
-            className="input-search"
-            placeholder="Type to Search..."
-          />
-        </div>
-        <div className="signup-button-main-div">
-          <div id="signup-link">
-            <Link to="/signup">Signup</Link>
-          </div>
-          <div>
-            <Link to="/cart">
-              <i className="fas fa-shopping-cart shopping-bag-icon"></i>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <Header />
       <form onSubmit={handleSubmit}>
         <div className="front-image-div">
-          <img src="./images/addBook1.jpg" alt="" />
+          <img src="https://cutt.ly/qwzQc8Os" alt="Add Book Image" />
           <div className="image-text">Add your books</div>
         </div>
         <div className="add-book-container">
           {imageUrl == null ? (
             <div className="book-image">
               <div className="file-input-container">
+                <label id="note-addbook">
+                  Note: Don't forget before adding a book to choose and upload
+                  an image using these buttons
+                </label>
+                <br />
+                <br />
                 <label className="file-label">
                   Choose File
                   <input
@@ -126,7 +105,7 @@ function AddBook() {
                   />
                 </label>
               </div>
-
+              <br />
               <button
                 id="upload-image-addbook"
                 type="button"
@@ -147,105 +126,111 @@ function AddBook() {
               </button>
             </div>
           )}
-          <div className="addbook-name">
-            <div>Book Name:</div>
-            <div>
-              <input
-                type="text"
-                placeholder="Enter the book name here"
-                ref={(elt) =>
-                  (formData.current = {
-                    bookName: () => elt.value,
-                    ...formData.current,
-                  })
-                }
-              />
-            </div>
+          <div className="format_book">
+            <label>Formats:</label>
+            <button id="formats-addBook"></button>
           </div>
-          <div className="addbook-authour-name">
-            <div>Author Name:</div>
-            <div>
-              <input
-                type="text"
-                placeholder="Enter the author's name here"
-                ref={(elt) =>
-                  (formData.current = {
-                    bookAuthor: () => elt.value,
-                    ...formData.current,
-                  })
-                }
-              />
+          <div className="content-addbook">
+            <div className="addbook-name">
+              <div>Book Name:</div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter the book name here"
+                  ref={(elt) =>
+                    (formData.current = {
+                      bookName: () => elt.value,
+                      ...formData.current,
+                    })
+                  }
+                />
+              </div>
             </div>
-          </div>
-          <div className="addbook-book-genre">
-            <div>Book Genre: </div>
-            <div>
-              <select
-                size={5}
-                multiple={true}
-                ref={(elt) =>
-                  (formData.current = {
-                    bookGenre: () =>
-                      [...elt.selectedOptions].map((option) => option.value),
-                    ...formData.current,
-                  })
-                }
-              >
-                {bookGenre.map((genre) => (
-                  <option key={genre} value={genre}>
-                    {genre}
-                  </option>
-                ))}
-              </select>
+            <div className="addbook-authour-name">
+              <div>Author Name:</div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter the author's name here"
+                  ref={(elt) =>
+                    (formData.current = {
+                      bookAuthor: () => elt.value,
+                      ...formData.current,
+                    })
+                  }
+                />
+              </div>
             </div>
-          </div>
-          <div className="addbook-authour-email">
-            <div>Author Email</div>
-            <div>
-              <input
-                type="text"
-                placeholder="Enter the author's email here"
-                ref={(elt) =>
-                  (formData.current = {
-                    emailAuthor: () => elt.value,
-                    ...formData.current,
-                  })
-                }
-              />
+            <div className="addbook-book-genre">
+              <div>Book Genre: </div>
+              <div>
+                <select
+                  size={5}
+                  multiple={true}
+                  ref={(elt) =>
+                    (formData.current = {
+                      bookGenre: () =>
+                        [...elt.selectedOptions].map((option) => option.value),
+                      ...formData.current,
+                    })
+                  }
+                >
+                  {bookGenre.map((genre) => (
+                    <option key={genre} value={genre}>
+                      {genre}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-          <div className="addbook-price">
-            <div>Book Price:</div>
-            <div>
-              <input
-                type="number"
-                placeholder="Enter the price here (in $)"
-                ref={(elt) =>
-                  (formData.current = {
-                    bookPrice: () => elt.value,
-                    ...formData.current,
-                  })
-                }
-              />
+            <div className="addbook-authour-email">
+              <div>Author Email</div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter the author's email here"
+                  ref={(elt) =>
+                    (formData.current = {
+                      emailAuthor: () => elt.value,
+                      ...formData.current,
+                    })
+                  }
+                />
+              </div>
             </div>
-          </div>
-          <div className="addbook-description">
-            <div>Book Description:</div>
-            <div>
-              <textarea
-                id="userInput"
-                rows="5"
-                cols="50"
-                placeholder="Describe your book here"
-                ref={(elt) =>
-                  (formData.current = {
-                    bookDescription: () => elt.value,
-                    ...formData.current,
-                  })
-                }
-              ></textarea>
+            <div className="addbook-price">
+              <div>Book Price:</div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Enter the price here (in $)"
+                  ref={(elt) =>
+                    (formData.current = {
+                      bookPrice: () => elt.value,
+                      ...formData.current,
+                    })
+                  }
+                />
+              </div>
             </div>
-            <button>Add Book</button>
+            <div className="addbook-description">
+              <div>Book Description:</div>
+              <div>
+                <textarea
+                  id="userInput"
+                  rows="5"
+                  cols="50"
+                  placeholder="Describe your book here"
+                  ref={(elt) =>
+                    (formData.current = {
+                      bookDescription: () => elt.value,
+                      ...formData.current,
+                    })
+                  }
+                ></textarea>
+              </div>
+              <button id="addbook-button">Add Book</button>
+            </div>
           </div>
         </div>
       </form>
