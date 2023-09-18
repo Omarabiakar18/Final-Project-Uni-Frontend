@@ -109,7 +109,9 @@ function Checkout() {
                 <label id="data-label">Data from database</label>
               </div>
               <div id="checkout-button-div">
-                <button id="checkout-button">Checkout</button>
+                <button type="button" id="checkout-button">
+                  Checkout
+                </button>
               </div>
             </div>
           </div>

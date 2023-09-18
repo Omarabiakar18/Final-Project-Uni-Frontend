@@ -11,6 +11,107 @@ import {
 } from "firebase/storage";
 import { v4 } from "uuid";
 import Header from "./Header";
+import { Pinwheel } from "@uiball/loaders";
+
+function Loading() {
+  return <Pinwheel size={60} lineWeight={3.5} speed={1} color="black" />;
+}
+
+function ErrorMessage({ message }) {
+  return <h2>Error: {message}</h2>;
+}
+
+function Formats({ bookFormat, setFormat }) {
+  const [priceText, setText] = useState("");
+
+  useEffect(() => {
+    let price = parseFloat(priceText);
+    price = Number.isNaN(price) ? null : price;
+    setFormat((table) => {
+      table[bookFormat] = price;
+      return { ...table };
+    });
+  }, [priceText]);
+
+  function handleChange(text) {
+    // ^: start  \d: digit. *: 0 or more. (?:) : none capturing group ? : 0 or 1. $ : end
+    if (/^\d*(?:\.\d*)?$/.test(text)) {
+      setText(text);
+    }
+  }
+
+  return (
+    <div className="format_book">
+      <div className="format-type">
+        <label id="type-book">{`${bookFormat}: `}</label>
+        <input
+          type="text"
+          inputMode="numeric"
+          placeholder={`Enter the price of the ${bookFormat} version`}
+          value={priceText}
+          onChange={(ev) => handleChange(ev.target.value)}
+        />
+      </div>
+    </div>
+  );
+}
+
+function FormatController({ formData }) {
+  const [errorMessage, setError] = useState(null);
+  const [formatTable, setFormat] = useState(null);
+
+  formData.current.bookFormat = () => {
+    const tmp = [];
+    for (const [format, price] of Object.entries(formatTable)) {
+      if (price !== null) {
+        tmp.push({ format, price });
+      }
+    }
+    return tmp;
+  };
+
+  useEffect(
+    () => async () => {
+      const [formats, error] = await getData("/bookFormat");
+      if (error) {
+        setError(error);
+      } else {
+        localStorage.setItem("bookFormat", JSON.stringify(formats));
+        const table = {};
+        formats.forEach((format) => {
+          table[format] = null;
+        });
+        setFormat(table);
+      }
+    },
+    []
+  );
+
+  if (errorMessage) {
+    return <ErrorMessage message={errorMessage} />;
+  }
+
+  if (!formatTable) {
+    return <Loading />;
+  }
+
+  return (
+    <div>
+      <div className="format-label-addbook">Formats:</div>
+      <div className="format-label-addbook">
+        Note: Leave Book Price Empty If Not Available
+      </div>
+
+      {Object.keys(formatTable).map((bookFormat) => (
+        <Formats
+          setFormat={setFormat}
+          bookFormat={bookFormat}
+          key={bookFormat}
+        />
+      ))}
+    </div>
+  );
+}
 
 function AddBook() {
   const formData = useRef({});
@@ -33,10 +134,8 @@ function AddBook() {
     for (let key in formData.current) {
       sendData[key] = formData.current[key]();
     }
-    console.log(sendData);
 
     const [data, error] = await postData(url, sendData);
-    console.log(data);
     if (error) {
       alert(`Error Occured: ${error}`);
     } else {
@@ -72,7 +171,7 @@ function AddBook() {
   const genres = localStorage.getItem("bookGenre");
   if (!genres) {
     // redirect
-    alert("Going to homepage so continue");
+    alert("Going to homepage to continue");
     location.href = "/start";
   }
   const bookGenre = JSON.parse(genres);
@@ -126,10 +225,7 @@ function AddBook() {
               </button>
             </div>
           )}
-          <div className="format_book">
-            <label>Formats:</label>
-            <button id="formats-addBook"></button>
-          </div>
+          <FormatController formData={formData} />
           <div className="content-addbook">
             <div className="addbook-name">
               <div>Book Name:</div>
@@ -192,21 +288,6 @@ function AddBook() {
                   ref={(elt) =>
                     (formData.current = {
                       emailAuthor: () => elt.value,
-                      ...formData.current,
-                    })
-                  }
-                />
-              </div>
-            </div>
-            <div className="addbook-price">
-              <div>Book Price:</div>
-              <div>
-                <input
-                  type="number"
-                  placeholder="Enter the price here (in $)"
-                  ref={(elt) =>
-                    (formData.current = {
-                      bookPrice: () => elt.value,
                       ...formData.current,
                     })
                   }

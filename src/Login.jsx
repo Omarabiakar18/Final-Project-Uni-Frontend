@@ -17,7 +17,6 @@ function LogIn() {
       sendData[key] = formData.current[key]();
     }
     const [data, error] = await postData(url, sendData);
-    console.log(data);
     if (error) {
       alert(`Error Occured: ${error}`);
       localStorage.clear();

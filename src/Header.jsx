@@ -9,19 +9,38 @@ function FilterOptions({
   setSelectedGenre,
   bookGenre,
 }) {
+  const dropdownRef = useRef(null);
+
+  // Add a useEffect hook to listen for clicks outside the dropdown
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Clicked outside the dropdown, close it
+        setShowMenu(false);
+      }
+    }
+
+    // Add the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setShowMenu]);
+
   return (
     <div className="filter-options">
-      <span onClick={() => setShowMenu((current) => !current)}>Filters</span>
-      {showMenu && ( //if pressed
-        <div className="filter-options-choices">
+      {showMenu && (
+        <div className="filter-options-dropdown" ref={dropdownRef}>
           {bookGenre.map((genre, index) => (
             <button
               key={index}
               className={`filter-choice ${
-                selectedGenre[index] ? "selected" : "" //to be seen visually
+                selectedGenre[index] ? "selected" : ""
               }`}
               onClick={() => {
-                selectedGenre[index] = !selectedGenre[index]; //if selected remove and vise versa
+                selectedGenre[index] = !selectedGenre[index];
                 setSelectedGenre([...selectedGenre]);
               }}
             >
@@ -36,8 +55,8 @@ function FilterOptions({
 
 function SearchBox() {
   const query = useRef();
-  const [showMenu, setShowMenu] = useState(false);
   const bookGenre = JSON.parse(localStorage.getItem("bookGenre"));
+  const [showMenu, setShowMenu] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState(
     bookGenre.map(() => false)
   );
@@ -75,6 +94,7 @@ function SearchBox() {
         className="input-search"
         placeholder="Search by Book, Author or Filters"
         ref={query}
+        onClick={() => setShowMenu((current) => !current)}
       />
     </div>
   );

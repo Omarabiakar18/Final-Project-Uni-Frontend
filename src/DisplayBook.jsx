@@ -13,11 +13,43 @@ function ErrorMessage({ message }) {
   return <h2>Error: {message}</h2>;
 }
 
+function FormatsDisplay({ book, selectedFormats, setSelected, index }) {
+  const toggleButton = () => {
+    setSelected((selectedFormats) => {
+      for (let i = 0; i < selectedFormats.length; i++) {
+        selectedFormats[i] = false;
+      }
+      selectedFormats[index] = true;
+      return [...selectedFormats];
+    });
+  };
+
+  return (
+    <div id="container-format-button">
+      <button
+        type="button"
+        className={
+          selectedFormats[index] ? "format-buttons selected" : "format-buttons"
+        }
+        onClick={toggleButton}
+      >
+        <label>{book.format}</label>
+        <br />
+        <label>{book.price}$</label>
+      </button>
+    </div>
+  );
+}
+
 function Book({ book }) {
   const bookQuantity = useRef(null);
+  const [selectedFormats, setSelected] = useState(
+    book.bookFormat.map((_, i) => i === 0)
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
+
     const bookID = new URL(location.href).searchParams.get("bookID");
     const url = `/api/users/addToCart/${bookID}`;
 
@@ -32,11 +64,10 @@ function Book({ book }) {
       email,
       bookID,
       bookQuantity: bookQuantity.current.value,
+      formatBook: book.bookFormat[selectedFormats.findIndex((s) => s)].format,
     };
-    console.log(sendData);
 
     const [data, error] = await postData(url, sendData);
-    console.log(data);
 
     if (error) {
       alert(`Error Occured: ${error}`);
@@ -59,9 +90,19 @@ function Book({ book }) {
             <div className="authorname-display">
               <label id="authorName">by {book.bookAuthor}</label>
             </div>
-            <div className="price-display">
-              <span id="priceBook-text">Price </span>
-              <span id="priceBook">{book.bookPrice}$</span>
+            <div className="format-display">
+              <div id="format-text">Formats: </div>
+              <div id="format-display">
+                {book.bookFormat.map((book, index) => (
+                  <FormatsDisplay
+                    book={book}
+                    key={index}
+                    setSelected={setSelected}
+                    selectedFormats={selectedFormats}
+                    index={index}
+                  />
+                ))}
+              </div>
             </div>
             <div className="quantity-display">
               <span id="quantity-title-display">Quantity:</span>
@@ -121,9 +162,8 @@ function BookDisplayComponent() {
 
   useEffect(
     () => async () => {
-      console.log(url);
       const [data, error] = await getData(url);
-      console.log(data);
+
       if (error) {
         setError(error);
       } else {
@@ -156,7 +196,6 @@ function DisplayBook() {
       location.href = "/start";
       return;
     }
-    console.log(bookID);
   }, []);
 
   return (

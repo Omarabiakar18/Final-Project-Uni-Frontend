@@ -9,6 +9,7 @@ import ForgotPass from "./ForgotPass";
 import ResetPassword from "./ResetPassword";
 import Search from "./Search";
 import Checkout from "./Checkout";
+import WishList from "./WishList";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/search" element={<Search />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/wishlist" element={<WishList />} />
       </Routes>
     </div>
   );

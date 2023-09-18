@@ -32,7 +32,9 @@ function Book({ book }) {
 
       <div
         className="bookAuthor-start"
-        onClick={() => (location.href = `/displaybook?bookID=${book.bookID}`)}
+        onClick={() =>
+          (location.href = `/search?query=${book.bookAuthor}&filters=[]`)
+        }
       >
         {book.bookAuthor}
       </div>
@@ -63,7 +65,6 @@ function BookList({ endPoint }) {
   if (!list) {
     return <Loading />;
   }
-  console.log(list);
   return (
     <div>
       {list.map((book, index) => (
@@ -74,6 +75,8 @@ function BookList({ endPoint }) {
 }
 
 function Start() {
+  const [bookGenreLoaded, setBookGenre] = useState(false);
+
   useEffect(
     () => async () => {
       const [genres, error] = await getData("/bookGenres");
@@ -81,15 +84,17 @@ function Start() {
         alert("Genres didn't load");
       } else {
         localStorage.setItem("bookGenre", JSON.stringify(genres));
+        setBookGenre(true);
       }
     },
     []
   );
+
   const fullName = localStorage.getItem("fullName");
 
   return (
     <div className="contain">
-      <Header />
+      {bookGenreLoaded && <Header />}
       <div className="front-image-div">
         <img src="https://ln.run/IKqlt" alt="start-image" />
         <div className="image-text">Welcome To The BookShelf Depot</div>

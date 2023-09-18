@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./User.css";
-import { getData, postData } from "./utils";
-import { useEffect, useState, useRef } from "react";
+import { postData, getData } from "./utils";
+import React, { useEffect, useState } from "react";
 import { Pinwheel } from "@uiball/loaders";
 import Header from "./Header";
 
@@ -32,7 +32,9 @@ function Book({ book }) {
 
       <div
         className="bookAuthor-start"
-        onClick={() => (location.href = `/displaybook?bookID=${book.bookID}`)}
+        onClick={() =>
+          (location.href = `/search?query=${book.bookAuthor}&filters=[]`)
+        }
       >
         {book.bookAuthor}
       </div>
@@ -40,20 +42,21 @@ function Book({ book }) {
   );
 }
 
-function BookDisplayComponent({ sendData }) {
-  const [bookDisplay, setBookDisplay] = useState(null);
+function BookList() {
+  const [list, setList] = useState(null);
   const [errorMessage, setError] = useState(null);
 
-  const url = `/api/users/searchBook`;
+  const url = `/api/users/displayWishlist`;
+  const email = localStorage.getItem("email");
+  const sendData = { email };
 
   useEffect(
     () => async () => {
       const [data, error] = await postData(url, sendData);
-
       if (error) {
         setError(error);
       } else {
-        setBookDisplay(data.data);
+        setList(data.data);
       }
     },
     []
@@ -63,53 +66,31 @@ function BookDisplayComponent({ sendData }) {
     return <ErrorMessage message={errorMessage} />;
   }
 
-  if (!bookDisplay) {
+  if (!list) {
     return <Loading />;
   }
-
+  console.log(list);
   return (
     <div>
-      {bookDisplay.map((book) => (
-        <Book book={book} />
+      {list.map((book, index) => (
+        <Book book={book} key={book.bookID} />
       ))}
     </div>
   );
 }
 
-function Search() {
-  const url = new URL(location.href);
-  const query = url.searchParams.get("query");
-  if (query === null) {
-    location.href = "/start";
-  }
-  let filters;
-  try {
-    filters = JSON.parse(url.searchParams.get("filters"));
-    if (!Array.isArray(filters)) {
-      //secure
-      filters = [];
-    }
-  } catch (error) {
-    console.error(error);
-    filters = [];
-  }
-
-  const sendData = { query, filters };
-
+function WishList() {
   return (
-    <div className="contain">
+    <div className="wishlist-container">
       <Header />
       <div className="front-image-div">
-        <img src="https://cutt.ly/8wzJpjWp" alt="Search Image" />
-        <div className="image-text-search">Search Results</div>
+        <img src="https://ln.run/YM2u5" alt="Cart Image" />
+        <div className="image-text-cart">WishList</div>
       </div>
-      <div className="search-div">
-        <div className="search-title-query">
-          <div className="search-label">Search results for "{`${query}`}"</div>
-        </div>
-        <BookDisplayComponent sendData={sendData} />
+      <div className="display-wishlist">
+        <BookList />
       </div>
     </div>
   );
 }
-export default Search;
+export default WishList;

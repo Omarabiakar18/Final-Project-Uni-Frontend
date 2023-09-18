@@ -13,14 +13,22 @@ function ErrorMessage({ message }) {
   return <h2>Error: {message}</h2>;
 }
 
-function Book({ itemID, book, quantity, setBookList }) {
+function Book({ item, setBookList }) {
+  const itemID = item._id;
+  const book = item.bookInfo;
+  const quantity = item.bookQuantity;
+
   const [quantityValue, setQuantity] = useState(quantity);
 
   function validNumber(text) {
-    let num = parseInt(text);
-    num = Number.isNaN(num) ? 0 : num;
-    num = num < 1 ? 1 : num;
-    setQuantity(num);
+    if (text === "") {
+      setQuantity(null);
+    } else {
+      let num = parseInt(text);
+      num = Number.isNaN(num) ? 0 : num;
+      num = num < 1 ? 1 : num;
+      setQuantity(num);
+    }
   }
 
   async function removeBook() {
@@ -37,16 +45,13 @@ function Book({ itemID, book, quantity, setBookList }) {
       email,
       itemID,
     };
-    console.log(sendData);
 
     const [data, error] = await postData(url, sendData);
-    console.log(data);
 
     if (error) {
       alert(`Error Occured: ${error}`);
       setQuantity(quantity);
     } else {
-      console.log(data);
       alert(data.message);
       setBookList((list) => list.filter((value) => value["_id"] !== itemID));
     }
@@ -61,22 +66,23 @@ function Book({ itemID, book, quantity, setBookList }) {
       alert("You need to sign up or login to continue");
       return;
     }
+    if (quantityValue === null) {
+      alert("Enter a quantity!!");
+      return;
+    }
 
     const sendData = {
       email,
       bookID: book.bookID,
       bookQuantity: quantityValue,
     };
-    console.log(sendData);
 
     const [data, error] = await postData(url, sendData);
-    console.log(data);
 
     if (error) {
       alert(`Error Occured: ${error}`);
       setQuantity(quantity);
     } else {
-      console.log(data);
       alert(data.message);
       setBookList((list) => {
         const index = list.findIndex((value) => value["_id"] === itemID);
@@ -86,11 +92,16 @@ function Book({ itemID, book, quantity, setBookList }) {
     }
   }
 
+  console.log(item);
+  const formatPrice = book.bookFormat.find(
+    (bF) => bF.format === item.formatBook
+  ).price;
+
   return (
     <div className="image-div">
       <div id="book-grid-div">
         {/* grid div 1 */}
-        <div className="book-image-div">
+        <div className="book-image-cart">
           <img src={book.bookCover} alt="Book Cover" />
         </div>
         {/* grid div 2 */}
@@ -101,15 +112,15 @@ function Book({ itemID, book, quantity, setBookList }) {
           <div className="authorname-display">
             <label id="authorName">{book.bookAuthor}</label>
           </div>
-          <div className="price-display">
-            <span id="priceBook-text">Price </span>
-            <span id="priceBook">{book.bookPrice}$</span>
+          <div className="format-cart">
+            <span id="formatBook-text">Format: {item.formatBook}</span>
+            <span id="formatBook">{formatPrice}$</span>
           </div>
           <div className="quantity-cart">
             <input
               type="text"
               inputMode="numeric"
-              value={quantityValue}
+              value={quantityValue === null ? "" : quantityValue}
               onChange={(ev) => validNumber(ev.target.value)}
             />
             <button id="update-cart-button" onClick={updateBook}>
@@ -152,16 +163,9 @@ function BookDisplayComponent() {
   if (!bookDisplay) {
     return <Loading />;
   }
-  console.log(bookDisplay);
-
   return bookDisplay.map((item) => (
     <div key={item._id}>
-      <Book
-        itemID={item._id}
-        book={item.bookInfo}
-        quantity={item.bookQuantity}
-        setBookList={setBookDisplay}
-      />
+      <Book setBookList={setBookDisplay} item={item} />
     </div>
   ));
 }
@@ -183,9 +187,11 @@ function Cart() {
       <div className="cart-items">
         <BookDisplayComponent />
       </div>
-      <div id="checkout-cart-div">
-        <button id="checkout-button-cart">Checkout</button>
-      </div>
+      <Link className="link-display" to="/checkout">
+        <div id="checkout-cart-div">
+          <button id="checkout-button-cart">Checkout</button>
+        </div>
+      </Link>
     </div>
   );
 }

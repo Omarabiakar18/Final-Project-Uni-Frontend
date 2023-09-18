@@ -18,7 +18,6 @@ function SignUp() {
     }
     const response = await postData(url, sendData);
     const json = await response.json();
-    console.log(json);
     if (response.status >= 400) {
       alert(`Error Occured: ${json.message}`);
       localStorage.clear();
