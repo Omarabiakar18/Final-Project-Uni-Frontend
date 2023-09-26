@@ -14,34 +14,8 @@ function ErrorMessage({ message }) {
 }
 
 function Book({ book, setList }) {
-  async function handleremove() {
-    const url = `/api/users/removeWishlist`;
-    const bookID = book._id;
-    const email = localStorage.getItem("email");
-    if (email === undefined) {
-      console.error("Error: Email not found in localStorage.");
-      alert("You need to sign up or login to continue");
-      return;
-    }
-
-    const sendData = {
-      email,
-      bookID,
-    };
-    console.log(sendData);
-
-    const [data, error] = await postData(url, sendData);
-
-    if (error) {
-      alert(`Error Occured: ${error}`);
-    } else {
-      alert(data.message);
-      setList((list) => list.filter((value) => value["_id"] !== bookID));
-    }
-  }
-
   return (
-    <div className="grid-div-wishlist">
+    <div className="grid-div-wishlist shelf-border">
       <div className="bookCover-start">
         <img
           src={book.bookCover}
@@ -63,15 +37,6 @@ function Book({ book, setList }) {
       >
         {book.bookAuthor}
       </div>
-      <div className="button-wishlist">
-        <button
-          type="button"
-          id="remove-wishlist-button"
-          onClick={handleremove}
-        >
-          X
-        </button>
-      </div>
     </div>
   );
 }
@@ -80,7 +45,7 @@ function BookList() {
   const [list, setList] = useState(null);
   const [errorMessage, setError] = useState(null);
 
-  const url = `/api/users/displayWishlist`;
+  const url = `/api/users/displayLibrary`;
   const email = localStorage.getItem("email");
   const sendData = { email };
 
@@ -103,11 +68,30 @@ function BookList() {
   if (!list) {
     return <Loading />;
   }
-  console.log(list);
+  const shelves = [];
+  for (let i = 0; i < list.length; i += 5) {
+    const shelfBooks = list.slice(i, i + 5);
+    shelves.push(shelfBooks);
+  }
+
   return (
     <div>
-      {list.map((book, index) => (
-        <Book book={book} setList={setList} key={index} />
+      {shelves.map((shelf, shelfIndex) => (
+        <div key={shelfIndex} className="shelf">
+          {shelf.map((book, index) => (
+            <div key={index} className="book-container">
+              <Book book={book} setList={setList} />
+            </div>
+          ))}
+          {shelfIndex < shelves.length - 1 && (
+            <img
+              key={`image-${shelfIndex}`}
+              src="https://firebasestorage.googleapis.com/v0/b/bookshelf-depot-4594f.appspot.com/o/Main-Images%2FShelf.jpg?alt=media&token=8fc8069f-924e-4bc7-a90f-575a7bf24cd4"
+              alt=""
+              className="underline-image"
+            />
+          )}
+        </div>
       ))}
     </div>
   );
@@ -125,12 +109,20 @@ function WishList() {
     <div className="wishlist-container">
       <Header />
       <div className="front-image-div">
-        <img src="https://ln.run/OjzKM" alt="Cart Image" />
-        <div className="image-text-wishlist">WishList</div>
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/bookshelf-depot-4594f.appspot.com/o/Main-Images%2FMyLibrary.jpeg?alt=media&token=a2feee92-2d2f-4890-b54f-ecb348cb3d4f"
+          alt="Cart Image"
+        />
+        <div className="image-text-library">My Library</div>
       </div>
 
       <div className="display-wishlist">
         <BookList />
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/bookshelf-depot-4594f.appspot.com/o/Main-Images%2FShelf.jpg?alt=media&token=8fc8069f-924e-4bc7-a90f-575a7bf24cd4"
+          alt=""
+          className="underline-image"
+        />
       </div>
     </div>
   );

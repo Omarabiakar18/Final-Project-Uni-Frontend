@@ -92,7 +92,7 @@ function Book({ item, setBookList }) {
     }
   }
 
-  console.log(item);
+  //console.log(item);
   const formatPrice = book.bookFormat.find(
     (bF) => bF.format === item.formatBook
   ).price;
@@ -136,9 +136,10 @@ function Book({ item, setBookList }) {
   );
 }
 
-function BookDisplayComponent() {
+function BookDisplayComponent({ setTotal }) {
   const [bookDisplay, setBookDisplay] = useState(null);
   const [errorMessage, setError] = useState(null);
+
   const url = `/api/users/itemsInCart`;
 
   const email = localStorage.getItem("email");
@@ -151,6 +152,7 @@ function BookDisplayComponent() {
         setError(error);
       } else {
         setBookDisplay(data.data);
+        setTotal(data.totalAmount);
       }
     },
     []
@@ -163,6 +165,7 @@ function BookDisplayComponent() {
   if (!bookDisplay) {
     return <Loading />;
   }
+  //console.log(bookDisplay);
   return bookDisplay.map((item) => (
     <div key={item._id}>
       <Book setBookList={setBookDisplay} item={item} />
@@ -171,6 +174,8 @@ function BookDisplayComponent() {
 }
 
 function Cart() {
+  const [totalData, setTotal] = useState(null);
+
   const email = localStorage.getItem("email");
   if (email === undefined) {
     console.error("Error: Email not found in localStorage.");
@@ -185,11 +190,16 @@ function Cart() {
         <div className="image-text-cart">Your Cart</div>
       </div>
       <div className="cart-items">
-        <BookDisplayComponent />
+        <BookDisplayComponent setTotal={setTotal} />
       </div>
       <Link className="link-display" to="/checkout">
         <div id="checkout-cart-div">
-          <button id="checkout-button-cart">Checkout</button>
+          <button id="checkout-button-cart">
+            <div className="checkout-button-data">
+              <div className="label-checkout-1">Checkout</div>
+              <div className="label-checkout-2"> ${totalData}</div>
+            </div>
+          </button>
         </div>
       </Link>
     </div>

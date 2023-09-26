@@ -8,7 +8,10 @@
 .signup-link {
   text-decoration: none;
 }
-
+.full-signup-page {
+  width: 100%;
+  height: 100%;
+}
 .container-main-signup {
   --padding: 4rem;
   display: inline-flex;
@@ -22,16 +25,14 @@
 }
 
 .container-1-div {
-  padding-right: 5rem;
-  font-size: xx-large;
-
+  font-size: 2.5rem;
   align-self: center;
   margin-block-end: 1rem;
   font-weight: 800;
 }
 
 .are-you-ready .big {
-  font-size: 2.5rem;
+  font-size: 3rem;
 }
 
 .signup {
@@ -281,6 +282,7 @@ input {
   position: relative;
   width: fit-content;
   height: fit-content;
+  border-bottom: 1px solid black;
 }
 .front-image-div img {
   max-width: 100%;
@@ -342,8 +344,8 @@ input {
   top: 50%;
   left: 24%;
   transform: translate(-50%, -50%);
-  color: rgba(202, 73, 97, 0.78);
-  font-size: 2.7rem;
+  color: rgb(255, 255, 255);
+  font-size: 4rem;
   font-weight: 500;
 }
 
@@ -630,6 +632,21 @@ input {
   padding: 0.8rem;
   grid-column-gap: 2rem;
 }
+.genre-div {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+.genre-item {
+  border: 2px solid rgba(78, 159, 143, 1);
+  padding: 5px 10px;
+  margin-right: 5px;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+#quantity-title-display {
+  font-size: 1.4rem;
+}
 .useritems-checkout {
   display: flex;
   flex-direction: column;
@@ -697,6 +714,7 @@ input {
   padding: 0.7rem;
   color: white;
 }
+
 #checkout-cart-div {
   display: flex;
   justify-content: center;
@@ -707,8 +725,16 @@ input {
   width: 50%;
   color: white;
   border: none;
-  font-size: 2rem;
+  font-size: 3rem;
   border-radius: 5px;
+  margin-bottom: 5rem;
+  height: 6rem;
+}
+.label-checkout-1 {
+  margin-right: 11rem;
+}
+.checkout-button-data {
+  display: inline-flex;
 }
 /* filter - popup */
 .filter-options {
@@ -763,9 +789,25 @@ input {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-.search-label {
-  margin: 2rem;
+.search-label-1 {
+  margin-left: 2rem;
+  margin-top: 2rem;
   font-size: 2rem;
+}
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+.filter-item {
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid rgba(78, 159, 143, 1);
+  padding: 5px 10px;
 }
 #format-display {
   display: flex;
@@ -776,6 +818,17 @@ input {
 #format-text {
   margin-bottom: 1rem;
 }
+#filter-text {
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
+}
+.search-div {
+  border: 2px solid rgba(78, 159, 143, 1);
+  padding: 5px 10px;
+  margin: 2rem;
+  border-radius: 1rem;
+}
+
 .format-buttons {
   color: rgb(0, 0, 0);
   border: 2px solid black;
@@ -791,4 +844,97 @@ input {
     rgba(179, 90, 165, 1),
     rgba(179, 90, 165, 0.7)
   );
+}
+.display-wishlist {
+  margin-top: 3.5rem;
+  margin-left: 3.5rem;
+}
+.grid-div-wishlist {
+  display: inline-block;
+  margin-left: 2rem;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid black;
+  padding: 1rem;
+}
+#remove-wishlist-button {
+  border: none;
+  background-color: rgb(198, 40, 40);
+  color: white;
+  width: 100%;
+}
+.button-wishlist {
+  width: auto;
+  margin-top: 0.7rem;
+}
+#add-to-wishlist-button {
+  background-color: rgb(179, 90, 165);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  font-size: 1.4rem;
+  color: rgb(255, 255, 255);
+  margin-left: 1rem;
+}
+.image-text-wishlist {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: 5rem;
+  font-weight: 500;
+}
+.grid-div-search {
+  display: inline-block;
+  margin-left: 2rem;
+  text-align: left;
+  cursor: pointer;
+  text-align: center;
+  margin: 1rem;
+  padding: 0.8rem;
+}
+.grid-search {
+  border: 2px solid rgb(73, 162, 202);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+  margin-left: 2rem;
+}
+.shelf-border {
+  border: none;
+  border-top: 1px solid #ccc;
+  box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.2);
+  background-color: #f5f5f5;
+}
+.image-text-library {
+  position: absolute;
+  top: 60%;
+  left: 56%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 5rem;
+  font-weight: 500;
+}
+.book-container {
+  display: inline-block;
+  margin: 10px; /* Adjust the margin as needed */
+}
+
+.underline-image {
+  display: block;
+  width: 95%;
+}
+.shelf {
+  display: flex;
+  flex-wrap: wrap;
+}
+.format-type {
+  display: grid;
+  grid-template-columns: 8rem auto;
+  grid-gap: 1rem;
 }

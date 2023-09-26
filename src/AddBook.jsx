@@ -43,14 +43,18 @@ function Formats({ bookFormat, setFormat }) {
   return (
     <div className="format_book">
       <div className="format-type">
-        <label id="type-book">{`${bookFormat}: `}</label>
-        <input
-          type="text"
-          inputMode="numeric"
-          placeholder={`Enter the price of the ${bookFormat} version`}
-          value={priceText}
-          onChange={(ev) => handleChange(ev.target.value)}
-        />
+        <div className="format-addBook-label">
+          <label id="type-book">{`${bookFormat}: `}</label>
+        </div>
+        <div className="format-addBook-price">
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder={`Enter the price of the ${bookFormat} version`}
+            value={priceText}
+            onChange={(ev) => handleChange(ev.target.value)}
+          />
+        </div>
       </div>
     </div>
   );
@@ -189,7 +193,7 @@ function AddBook() {
               <div className="file-input-container">
                 <label id="note-addbook">
                   Note: Don't forget before adding a book to choose and upload
-                  an image using these buttons
+                  an image
                 </label>
                 <br />
                 <br />

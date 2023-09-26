@@ -10,6 +10,8 @@ import ResetPassword from "./ResetPassword";
 import Search from "./Search";
 import Checkout from "./Checkout";
 import WishList from "./WishList";
+import MyLibrary from "./MyLibrary";
+import AuthorInfo from "./AuthorInfo";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<WishList />} />
+        <Route path="/mylibrary" element={<MyLibrary />} />
+        <Route path="/authorinfo" element={<AuthorInfo />} />
       </Routes>
     </div>
   );

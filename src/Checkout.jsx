@@ -1,6 +1,6 @@
 import "./User.css";
 import { postData, getData } from "./utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Pinwheel } from "@uiball/loaders";
 import Header from "./Header";
 import countriesList from "countries-list";
@@ -35,7 +35,92 @@ function CountryDropdown({ defaultCountry }) {
   );
 }
 
+function GetTotal({ setBookDisplay, bookDisplay, totalData, setTotal }) {
+  const [errorMessage, setError] = useState(null);
+  const bookID = useRef(null);
+
+  const url = `/api/users/itemsInCart`;
+  const email = localStorage.getItem("email");
+  const sendData = { email };
+
+  useEffect(
+    () => async () => {
+      const [data, error] = await postData(url, sendData);
+      if (error) {
+        setError(error);
+      } else {
+        setBookDisplay(
+          data.data.map((item) => ({
+            bookID: item.bookInfo.bookID,
+            bookQuantity: item.bookQuantity,
+          }))
+        );
+
+        setTotal(data.totalAmount);
+      }
+    },
+    []
+  );
+
+  if (errorMessage) {
+    return <ErrorMessage message={errorMessage} />;
+  }
+
+  if (!totalData) {
+    return <Loading />;
+  }
+
+  return (
+    <div>
+      <label id="data-label">${totalData}</label>
+    </div>
+  );
+}
+
+function DisplayTotal({ totalData }) {
+  if (!totalData) {
+    return <Loading />;
+  }
+  return (
+    <div>
+      <label id="data-label">${totalData + 3}</label>
+    </div>
+  );
+}
+
 function Checkout() {
+  const email = localStorage.getItem("email");
+  const [bookDisplay, setBookDisplay] = useState(null);
+  const [totalData, setTotal] = useState(null);
+  const bookID = useRef(null);
+
+  async function handleCheckout() {
+    const url = `/api/users/addToLibrary`;
+    const email = localStorage.getItem("email");
+
+    const sendData = { email, bookID: bookDisplay.map((item) => item.bookID) };
+    const [data, error] = await postData(url, sendData);
+
+    if (error) {
+      alert(`Error Occured: ${error}`);
+      return;
+    } else {
+      alert("Checkout Successfull!! You can view your items in My Library.");
+    }
+    //Remove all items from cart
+    const url_2 = `/api/users/removeAllCart`;
+
+    const sendData_2 = { email };
+    const [data_2, error_2] = await postData(url_2, sendData_2);
+
+    if (error_2) {
+      alert(`Error Occured: ${error}`);
+      return;
+    }
+
+    return <div></div>;
+  }
+
   return (
     <div className="container-checkout">
       <Header />
@@ -79,7 +164,7 @@ function Checkout() {
                 <label>Email:</label>
               </div>
               <div className="email-checkout">
-                <input type="text" placeholder="Enter your email address" />
+                <input type="text" value={email} disabled={true} />
               </div>
 
               <div id="label-checkout" className="notes-label">
@@ -98,18 +183,27 @@ function Checkout() {
             <div className="useritems-checkout">
               <div className="sub">
                 <label id="useritems-label">SubTotal: </label>
-                <label id="data-label">Data from database</label>
+                <GetTotal
+                  setBookDisplay={setBookDisplay}
+                  bookDisplay={bookDisplay}
+                  totalData={totalData}
+                  setTotal={setTotal}
+                />
               </div>
               <div className="shipping">
                 <label id="useritems-label">Shipping: </label>
-                <label id="data-label">3$</label>
+                <label id="data-label">$3</label>
               </div>
               <div className="total">
                 <label id="useritems-label">Total: </label>
-                <label id="data-label">Data from database</label>
+                <DisplayTotal totalData={totalData} />
               </div>
               <div id="checkout-button-div">
-                <button type="button" id="checkout-button">
+                <button
+                  type="button"
+                  id="checkout-button"
+                  onClick={handleCheckout}
+                >
                   Checkout
                 </button>
               </div>

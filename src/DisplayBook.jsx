@@ -75,6 +75,31 @@ function Book({ book }) {
       alert("Book added to cart!!");
     }
   }
+  async function handlelist() {
+    const url = `/api/users/wishList`;
+    const bookID = book.bookID;
+    const email = localStorage.getItem("email");
+    if (email === undefined) {
+      console.error("Error: Email not found in localStorage.");
+      alert("You need to sign up or login to continue");
+      return;
+    }
+
+    const sendData = {
+      email,
+      bookID,
+    };
+    console.log(sendData);
+
+    const [data, error] = await postData(url, sendData);
+
+    if (error) {
+      alert(`Error Occured: ${error}`);
+    } else {
+      alert(data.message);
+      setList((list) => list.filter((value) => value["_id"] !== bookID));
+    }
+  }
 
   return (
     <div id="book-grid-div">
@@ -104,6 +129,16 @@ function Book({ book }) {
                 ))}
               </div>
             </div>
+            <div className="genre-div">
+              <label id="bookgenre-label-display">
+                Genre:{" "}
+                {book.bookGenre.map((genre, index) => (
+                  <span key={index} className="genre-item">
+                    {genre}
+                  </span>
+                ))}
+              </label>
+            </div>
             <div className="quantity-display">
               <span id="quantity-title-display">Quantity:</span>
               <input type="number" ref={bookQuantity} />
@@ -112,6 +147,14 @@ function Book({ book }) {
               <button id="add-to-cart-button">
                 <i className="fas fa-shopping-cart shopping-bag-icon-2"></i>
                 Add to Cart
+              </button>
+              <button
+                type="button"
+                id="add-to-wishlist-button"
+                onClick={handlelist}
+              >
+                <i className="fas fa-heart wishlist-icon shopping-bag-icon-2"></i>
+                Add to Wishlist
               </button>
             </div>
             <div className="description-display">

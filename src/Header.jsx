@@ -114,6 +114,12 @@ function DropdownMenu() {
   function addBook() {
     location.href = "/addbook";
   }
+  function wishlist() {
+    location.href = "/wishlist";
+  }
+  function myLibrary() {
+    location.href = "/myLibrary";
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -160,6 +166,16 @@ function DropdownMenu() {
             <li onClick={() => handleOptionClick("AddBook")}>
               <button id="addbook-popup" onClick={addBook}>
                 Add Book
+              </button>
+            </li>
+            <li onClick={() => handleOptionClick("WishList")}>
+              <button id="addbook-popup" onClick={wishlist}>
+                Wish List
+              </button>
+            </li>
+            <li onClick={() => handleOptionClick("MyLibrary")}>
+              <button id="addbook-popup" onClick={myLibrary}>
+                My Library
               </button>
             </li>
             <li onClick={() => handleOptionClick("LogOut")}>

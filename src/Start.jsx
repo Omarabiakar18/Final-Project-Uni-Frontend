@@ -33,7 +33,7 @@ function Book({ book }) {
       <div
         className="bookAuthor-start"
         onClick={() =>
-          (location.href = `/search?query=${book.bookAuthor}&filters=[]`)
+          (location.href = `/authorinfo?query=${book.bookAuthor}&filters=[]`)
         }
       >
         {book.bookAuthor}

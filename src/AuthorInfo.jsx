@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
 import "./User.css";
-import { getData, postData } from "./utils";
+import { postData } from "./utils";
 import { useEffect, useState, useRef } from "react";
 import { Pinwheel } from "@uiball/loaders";
 import Header from "./Header";
@@ -32,7 +31,9 @@ function Book({ book }) {
 
       <div
         className="bookAuthor-start"
-        onClick={() => (location.href = `/displaybook?bookID=${book.bookID}`)}
+        onClick={() =>
+          (location.href = `/authorinfo?query=${book.bookAuthor}&filters=[]`)
+        }
       >
         {book.bookAuthor}
       </div>
@@ -100,24 +101,19 @@ function Search() {
     <div className="contain">
       <Header />
       <div className="front-image-div">
-        <img src="https://cutt.ly/8wzJpjWp" alt="Search Image" />
-        <div className="image-text-search">Search Results</div>
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/bookshelf-depot-4594f.appspot.com/o/Main-Images%2FAuthor%20Info.jpeg?alt=media&token=d9b28526-b876-47a4-a650-0285b9220def"
+          alt="Author Image"
+        />
+        <div className="image-text-search">Author Informaton</div>
       </div>
       <div className="search-div">
         <div className="search-title-query">
-          <div className="search-label-1">
-            Search results for "{`${query}`}"
-          </div>
-          <div className="filter-container">
-            <div id="filter-text">Filters Applied: </div>
-            {filters.map((filter, index) => (
-              <div key={index} className="filter-item">
-                {filter}
-              </div>
-            ))}
-          </div>
+          <div className="search-label">About "{`${query}`}"</div>
         </div>
-        <BookDisplayComponent sendData={sendData} />
+        <div className="grid-search">
+          <BookDisplayComponent sendData={sendData} />
+        </div>
       </div>
     </div>
   );
