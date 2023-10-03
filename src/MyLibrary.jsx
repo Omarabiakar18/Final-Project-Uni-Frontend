@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, createRoutesFromChildren } from "react-router-dom";
 import "./User.css";
 import { postData, getData } from "./utils";
 import React, { useEffect, useState } from "react";
@@ -14,28 +14,29 @@ function ErrorMessage({ message }) {
 }
 
 function Book({ book, setList }) {
+  console.log(book);
   return (
     <div className="grid-div-wishlist shelf-border">
       <div className="bookCover-start">
         <img
-          src={book.bookCover}
+          src={book.bookInfo.bookCover}
           alt="Book Cover"
-          onClick={() => (location.href = `/displaybook?bookID=${book.bookID}`)}
+          onClick={() => (location.href = `/displaylibrary?bookID=${book._id}`)}
         />
       </div>
       <div
         className="bookName-start"
-        onClick={() => (location.href = `/displaybook?bookID=${book.bookID}`)}
+        onClick={() => (location.href = `/displaylibrary?bookID=${book._id}`)}
       >
-        {book.bookName}
+        {book.bookInfo.bookName}
       </div>
       <div
         className="bookAuthor-start"
         onClick={() =>
-          (location.href = `/search?query=${book.bookAuthor}&filters=[]`)
+          (location.href = `/authorinfo?query=${book.bookInfo.bookAuthor}&filters=[]`)
         }
       >
-        {book.bookAuthor}
+        {book.bookInfo.bookAuthor}
       </div>
     </div>
   );
@@ -68,6 +69,16 @@ function BookList() {
   if (!list) {
     return <Loading />;
   }
+  if (list == "") {
+    return (
+      <div id="wishlist-data-div">
+        Your Library is empty!!
+        <br />
+        Purchased items appear in your library,{" "}
+      </div>
+    );
+  }
+
   const shelves = [];
   for (let i = 0; i < list.length; i += 5) {
     const shelfBooks = list.slice(i, i + 5);
@@ -97,7 +108,7 @@ function BookList() {
   );
 }
 
-function WishList() {
+function MyLibrary() {
   const email = localStorage.getItem("email");
   if (email === undefined) {
     console.error("Error: Email not found in localStorage.");
@@ -127,4 +138,4 @@ function WishList() {
     </div>
   );
 }
-export default WishList;
+export default MyLibrary;

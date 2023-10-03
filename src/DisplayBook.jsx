@@ -112,7 +112,12 @@ function Book({ book }) {
             <div className="bookname-display">
               <span id="bookTitle">{book.bookName}</span>
             </div>
-            <div className="authorname-display">
+            <div
+              className="authorname-display"
+              onClick={() =>
+                (location.href = `/authorinfo?query=${book.bookAuthor}&filters=[]`)
+              }
+            >
               <label id="authorName">by {book.bookAuthor}</label>
             </div>
             <div className="format-display">

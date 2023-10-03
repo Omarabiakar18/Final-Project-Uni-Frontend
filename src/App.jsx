@@ -12,6 +12,7 @@ import Checkout from "./Checkout";
 import WishList from "./WishList";
 import MyLibrary from "./MyLibrary";
 import AuthorInfo from "./AuthorInfo";
+import DisplayLibrary from "./DisplayLibrary";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/mylibrary" element={<MyLibrary />} />
         <Route path="/authorinfo" element={<AuthorInfo />} />
+        <Route path="/displaylibrary" element={<DisplayLibrary />} />
       </Routes>
     </div>
   );

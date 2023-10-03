@@ -145,18 +145,24 @@ function BookDisplayComponent({ setTotal }) {
   const email = localStorage.getItem("email");
   const sendData = { email };
 
-  useEffect(
-    () => async () => {
-      const [data, error] = await postData(url, sendData);
-      if (error) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [data, error] = await postData(url, sendData);
+        if (error) {
+          setError(error);
+        } else {
+          setBookDisplay(data.data);
+          setTotal(data.totalAmount);
+        }
+      } catch (error) {
         setError(error);
-      } else {
-        setBookDisplay(data.data);
-        setTotal(data.totalAmount);
       }
-    },
-    []
-  );
+    };
+
+    // Call fetchData when the component mounts and whenever bookDisplay or errorMessage changes
+    fetchData();
+  }, [bookDisplay, errorMessage, setTotal]);
 
   if (errorMessage) {
     return <ErrorMessage message={errorMessage} />;
@@ -165,12 +171,30 @@ function BookDisplayComponent({ setTotal }) {
   if (!bookDisplay) {
     return <Loading />;
   }
-  //console.log(bookDisplay);
+
   return bookDisplay.map((item) => (
     <div key={item._id}>
       <Book setBookList={setBookDisplay} item={item} />
     </div>
   ));
+}
+
+function Checkout_Button({ totalData }) {
+  function handleClick() {
+    location.href = "/checkout";
+  }
+  return (
+    // <Link className="link-display" to="/checkout">
+    <div id="checkout-cart-div">
+      <button onClick={handleClick} id="checkout-button-cart">
+        <div className="checkout-button-data">
+          <div className="label-checkout-1">Checkout</div>
+          <div className="label-checkout-2"> ${totalData}</div>
+        </div>
+      </button>
+    </div>
+    // </Link>
+  );
 }
 
 function Cart() {
@@ -192,16 +216,11 @@ function Cart() {
       <div className="cart-items">
         <BookDisplayComponent setTotal={setTotal} />
       </div>
-      <Link className="link-display" to="/checkout">
-        <div id="checkout-cart-div">
-          <button id="checkout-button-cart">
-            <div className="checkout-button-data">
-              <div className="label-checkout-1">Checkout</div>
-              <div className="label-checkout-2"> ${totalData}</div>
-            </div>
-          </button>
-        </div>
-      </Link>
+      {totalData == -1 ? (
+        <div id="cart-data-div">Your Cart is empty!!</div>
+      ) : (
+        <Checkout_Button totalData={totalData} />
+      )}
     </div>
   );
 }

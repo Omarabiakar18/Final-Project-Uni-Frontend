@@ -103,7 +103,11 @@ function BookList() {
   if (!list) {
     return <Loading />;
   }
-  console.log(list);
+
+  if (list == "") {
+    return <div id="wishlist-data-div">Your WishList is empty!!</div>;
+  }
+
   return (
     <div>
       {list.map((book, index) => (

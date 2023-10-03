@@ -938,3 +938,10 @@ input {
   grid-template-columns: 8rem auto;
   grid-gap: 1rem;
 }
+#cart-data-div,
+#wishlist-data-div {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 5rem;
+  padding: 3rem;
+}
